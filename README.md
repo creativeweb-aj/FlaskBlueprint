@@ -1,3 +1,3 @@
-# FlaskBlueprint
-## Run flask server
-flask run
+# **FlaskBlueprint**
+## _Run flask server_
+`flask run`
