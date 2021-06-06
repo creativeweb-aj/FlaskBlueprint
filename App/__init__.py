@@ -1,7 +1,7 @@
 from flask import Flask
 from App.Api.router import api
 from App.Admin.router import admin
-from App.extension import db, migrate
+from App.extension import db, migrate, ma
 from App.config import DEBUG, HOST, PORT
 
 
@@ -21,6 +21,9 @@ def create_app(config_file="config.py"):
 
     # Database migrate initialize
     migrate.init_app(app, db)
+
+    # Marshmallow initialize
+    ma.init_app(app)
 
     # Return App for run in run.py file
     return app
