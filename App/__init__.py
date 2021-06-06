@@ -1,15 +1,30 @@
 from flask import Flask
-
-from App.Api.route import api
-from App.Admin.route import admin
+from App.Api.router import api
+from App.Admin.router import admin
+from App.extension import db, migrate
+from App.config import DEBUG, HOST, PORT
 
 
 # All Apps routes are registered here
-def create_app():
+def create_app(config_file="config.py"):
     app = Flask(__name__)
-    # Api App
-    app.register_blueprint(api)
-    # Admin App
-    app.register_blueprint(admin)
+
+    # Register blueprints
+    app.register_blueprint(api, url_prefix='/api')
+    app.register_blueprint(admin, url_prefix='/admin')
+
+    # All configuration are in config file
+    app.config.from_pyfile(config_file)
+
+    # Database connection initialize
+    db.init_app(app)
+
+    # Database migrate initialize
+    migrate.init_app(app, db)
+
     # Return App for run in run.py file
     return app
+
+
+if __name__ == "__main__":
+    create_app().run(debug=DEBUG, host=HOST, port=PORT)
