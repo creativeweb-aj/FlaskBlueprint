@@ -1,14 +1,6 @@
 version: "3.9"
 
 services:
-  db:
-    image: postgres
-    volumes:
-      - ./data/db:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=123456
   web:
     build: .
     command: flask run
@@ -16,5 +8,3 @@ services:
       - .:/flaskapp
     ports:
       - "5000:5000"
-    depends_on:
-      - db
