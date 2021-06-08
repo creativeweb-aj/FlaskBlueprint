@@ -1,5 +1,5 @@
 from flask import Flask
-from App.extension import db, migrate, ma
+from App.extension import db, migrate, ma, swagger
 from App.config import DEBUG, HOST, PORT
 from App.Api.router import api
 from App.Admin.router import admin
@@ -25,6 +25,10 @@ def create_app(config_file="config.py"):
 
     # Marshmallow initialize
     ma.init_app(app)
+
+    # Swagger initialize
+
+    swagger.init_app(app)
 
     # Return App for run in run.py file
     return app

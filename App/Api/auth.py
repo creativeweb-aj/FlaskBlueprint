@@ -27,7 +27,7 @@ def RequiredAuthToken(f):
             # decoding the payload to fetch the stored details
             data = jwt.decode(token, SECRET_KEY, 'utf-8')
             current_user = User.query \
-                .filter_by(id=data['user_id']) \
+                .filter_by(id=data['user_id'], is_active=True, is_verify=True, is_delete=False) \
                 .first()
         except jwt.ExpiredSignatureError:
             return jsonify({
