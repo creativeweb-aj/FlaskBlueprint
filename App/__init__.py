@@ -1,6 +1,5 @@
 from flask import Flask
 from App.extension import db, migrate, ma, swagger
-from App.config import DEBUG, HOST, PORT
 from App.Api.router import api
 from App.Admin.router import admin
 
@@ -27,12 +26,14 @@ def create_app(config_file="config.py"):
     ma.init_app(app)
 
     # Swagger initialize
-
     swagger.init_app(app)
+
+    # Mail initialize
+    # mail.init_app(app)
 
     # Return App for run in run.py file
     return app
 
 
 if __name__ == "__main__":
-    create_app().run(debug=DEBUG, host=HOST, port=PORT)
+    create_app().run(debug=True, host='0.0.0.0', port=5000)

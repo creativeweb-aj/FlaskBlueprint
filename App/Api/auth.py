@@ -5,7 +5,10 @@ import jwt
 import os
 import json
 import datetime
+from App.extension import db
+from werkzeug.security import check_password_hash, generate_password_hash
 from App.response import TokenType
+from App.Api.email import EmailService
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
@@ -54,5 +57,44 @@ def GetJwtToken(data, tokenTime):
     return token
 
 
+# Create user method
+def createUser(data):
+    # Extract data from data
+    firstName = data['firstName']
+    lastName = data['lastName']
+    userName = data['userName']
+    email = data['email']
+    password = data['password']
+
+    # Generate password hash
+    password = generate_password_hash(password)
+    dateTime = str(datetime.datetime.timestamp(datetime.datetime.now()))
+
+    # Save data into model
+    obj = User(first_name=firstName, last_name=lastName, username=userName, email=email, password=password,
+               created_on=dateTime, updated_on=dateTime)
+    db.session.add(obj)
+    db.session.commit()
+
+    email = EmailService()
+    email.saveEmail(obj)
+
+    return obj
 
 
+# Login User
+def loginUser(data):
+    email = data['email']
+    password = data['password']
+    userObj = User.query.filter_by(email=email, is_active=True, is_verify=True, is_delete=False).first()
+    if userObj is not None and check_password_hash(userObj.password, password):
+        result = {
+            "canLogin": True,
+            "data": userObj.id
+        }
+    else:
+        result = {
+            "canLogin": False,
+            "data": userObj.id
+        }
+    return result
