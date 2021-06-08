@@ -1,5 +1,5 @@
 # **Flask App With Blueprint**
-## Flask-SQLAlchemy & Flask-Migrate
+#### Flask-SQLAlchemy, flask-marshmallow, Flask-Migrate, flasgger, PyJWT
 ### Create virtual environment
 ### Activate virtual environment
 ### Install requirements.txt file packages
