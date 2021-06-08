@@ -8,6 +8,10 @@ class UserSchema(ma.SQLAlchemySchema):
         model = User
 
     id = ma.auto_field()
-    username = ma.auto_field()
-    email = ma.auto_field()
-    password = ma.auto_field()
+    firstName = ma.auto_field('first_name')
+    lastName = ma.auto_field('last_name')
+    username = ma.auto_field('username')
+    email = ma.auto_field('email')
+    isActive = ma.auto_field('is_active')
+    isVerify = ma.auto_field('is_verify')
+    updatedOn = ma.auto_field('updated_on')

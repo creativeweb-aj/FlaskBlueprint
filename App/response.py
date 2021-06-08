@@ -16,7 +16,11 @@ class TokenType(enum.Enum):
 
 # Create response data
 def ResponseModal(status, data, message):
-    data = eval(data)
+    print(data)
+    if data is None:
+        data = ""
+    else:
+        data = json.loads(data)
     response = {
         "status": status,
         "data": data,
