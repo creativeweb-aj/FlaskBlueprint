@@ -6,6 +6,7 @@ from flask_mail import Message
 import uuid
 import smtplib
 import os
+from App.flask_celery import celery
 
 
 class EmailService:
@@ -24,20 +25,32 @@ class EmailService:
 
         return obj
 
+    @celery.task(name="email.sendEmail")
     def sendEmail(self, data, user):
         subject = data.subject
         body = data.body
         email = user.email
+        emailId = os.environ.get('MAIL_USERNAME')
+        password = os.environ.get('MAIL_PASSWORD')
+        message = """From: From Person <%s>
+        To: To Person <%s>
+        Subject: Email Verification Link
+
+        %s
+        """ % (emailId, email, body)
+
         # creates SMTP session
         s = smtplib.SMTP('smtp.gmail.com', 587)
         # start TLS for security
         s.starttls()
         # Authentication
-        emailId = os.environ.get('MAIL_USERNAME')
-        password = os.environ.get('MAIL_PASSWORD')
         s.login(emailId, password)
-        # sending the mail
-        s.sendmail(emailId, email, body)
+        s.set_debuglevel(True)
+        try:
+            # sending the mail
+            s.sendmail(emailId, [email], message)
+        except smtplib.SMTPException:
+            print(smtplib.SMTPException)
         # terminating the session
         s.quit()
         self.updateEmail(data)

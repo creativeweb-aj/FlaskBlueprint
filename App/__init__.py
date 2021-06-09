@@ -28,9 +28,6 @@ def create_app(config_file="config.py"):
     # Swagger initialize
     swagger.init_app(app)
 
-    # Mail initialize
-    # mail.init_app(app)
-
     # Return App for run in run.py file
     return app
 

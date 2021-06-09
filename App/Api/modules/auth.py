@@ -1,14 +1,13 @@
-from flask import jsonify, request, Response
+from flask import jsonify, request
 from App.Api.models import User
 from functools import wraps
 import jwt
 import os
-import json
 import datetime
 from App.extension import db
 from werkzeug.security import check_password_hash, generate_password_hash
 from App.response import TokenType
-from App.Api.email import EmailService
+from App.Api.modules.email import EmailService
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 

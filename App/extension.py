@@ -2,8 +2,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_marshmallow import Marshmallow
 from flasgger import Swagger
-from flask_mail import Mail
-
 
 # DB initialize in __init__ file
 # db variable use for create models from here
@@ -15,9 +13,6 @@ migrate = Migrate()
 
 # Marshmallow for database model schema
 ma = Marshmallow()
-
-# Mail Config
-# mail = Mail()
 
 # Swagger initialize document
 swagger_config = {
@@ -56,4 +51,3 @@ SWAGGER_TEMPLATE = {
     "securityDefinitions": {"APIKeyHeader": {"type": "apiKey", "name": "Authorization", "in": "header"}}
 }
 swagger = Swagger(config=swagger_config, template=SWAGGER_TEMPLATE)
-

@@ -1,9 +1,8 @@
-import datetime
 import json
 from flask import Blueprint, Response, request
 from App.Api.schema import UserSchema
 from App.Api.models import User
-from App.Api.auth import RequiredAuthToken, GetJwtToken, createUser, loginUser
+from App.Api.modules.auth import RequiredAuthToken, GetJwtToken, createUser, loginUser
 from App.response import TokenType, StatusType, ResponseModal
 from flasgger.utils import swag_from
 
@@ -41,6 +40,12 @@ def registerUser():
     isEmailExist = User.query.filter_by(email=data['email'], is_delete=False).first()
     if isEmailExist is not None:
         result = ResponseModal(StatusType.fail.value, None, 'Email is already exist')
+        return Response(result, status=409)
+
+    # Check for username is already exist or not
+    isUserNameExist = User.query.filter_by(username=data['userName'], is_delete=False).first()
+    if isUserNameExist is not None:
+        result = ResponseModal(StatusType.fail.value, None, 'Username is already exist')
         return Response(result, status=409)
 
     # Create user method
