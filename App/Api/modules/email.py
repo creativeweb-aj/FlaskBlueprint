@@ -6,7 +6,6 @@ from flask_mail import Message
 import uuid
 import smtplib
 import os
-from App.flask_celery import celery
 
 
 class EmailService:
@@ -25,7 +24,6 @@ class EmailService:
 
         return obj
 
-    @celery.task(name="email.sendEmail")
     def sendEmail(self, data, user):
         subject = data.subject
         body = data.body
