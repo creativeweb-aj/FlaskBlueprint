@@ -1,4 +1,4 @@
-# **Flask App With Blueprint Architecture**
+# **Flask App Blueprint Architecture**
 #### Flask-SQLAlchemy, flask-marshmallow, Flask-Migrate, flasgger, PyJWT
 ### Create virtual environment
 ### Activate virtual environment
